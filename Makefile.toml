@@ -1,0 +1,40 @@
+[env]
+APPNAME = "sample1"
+TARGETNAME = "samd51_gcc"
+ASP_SRC = "${PWD}/../toppers_asp"
+CFG = "${ASP_SRC}/asp/cfg/cfg/cfg"
+
+[tasks.cleankernel]
+script_runner = "@shell"
+script = '''
+cd ./src/cfg
+rm -rf *
+'''
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+dependencies = ["cleankernel"]
+
+[tasks.cleanbuild]
+command = "cargo"
+args = ["build", "--verbose"]
+dependencies = ["clean"]
+
+[tasks.build]
+command = "cargo"
+args = ["build", "--verbose"]
+
+[tasks.prebuild]
+script_runner = "@shell"
+script = '''
+mkdir -p ./src/cfg
+cd ./src/cfg
+${ASP_SRC}/asp/configure -T ${TARGETNAME} -A ${APPNAME} -g ${CFG} -D ${ASP_SRC}/asp
+make depend
+make libkernel.a
+make libsyssvc.a
+make libcfg.a
+echo '#![allow(dead_code)]\nuse toppers_asp::kernel::stddef::Id;\n\n' > ../kernel_cfg.rs
+cat kernel_cfg.h | grep -E '#define\s+[A-Z_0-9]+\s+[0-9]+' | sed -E "s/#define[[:blank:]]+([A-Z0-9_]+)[[:blank:]]+([0-9]+)/pub const \1 : Id = \2;/" >> ../kernel_cfg.rs
+'''

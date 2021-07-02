@@ -1,0 +1,19 @@
+[package]
+name = "asp_sample1"
+version = "0.1.0"
+edition = "2018"
+
+
+
+
+[features]
+default = ["target_support_cpu_exception", "toppers_support_get_utm"]
+target_support_cpu_exception = []
+toppers_support_get_utm = []
+
+[dependencies]
+toppers_asp = { path = "../toppers_asp", version = "0.1.0" }
+panic-halt = "0.2"
+
+[profile.dev]
+opt-level = 2

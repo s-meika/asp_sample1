@@ -1,0 +1,5 @@
+/target
+/src/cfg/*
+src/kernel_cfg.rs
+Cargo.lock
+.DS_Store
