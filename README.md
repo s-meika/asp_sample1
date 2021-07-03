@@ -1,7 +1,7 @@
 # asp_sample1
 Sample program for TOPPERS/ASP
 
-[topper_asp]（https://github.com/s-meika/toppers_asp）クレートを使ったサンプルプログラムです。
+[topper_asp](https://github.com/s-meika/toppers_asp)クレートを使ったサンプルプログラムです。
 TOPPERS/ASPに同梱されているsample1プログラムをRustで実装しています。
 
 # 動作確認済み環境
